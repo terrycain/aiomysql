@@ -460,15 +460,22 @@ class Connection:
         # "MySQL server has gone away (%r)" % (e,))
         try:
             if self._unix_socket and self._host in ('localhost', '127.0.0.1'):
+                conn_coro = asyncio.open_unix_connection(
+                    self._unix_socket, loop=self._loop)
+
                 self._reader, self._writer = yield from \
-                    asyncio.open_unix_connection(self._unix_socket,
-                                                 loop=self._loop)
+                    asyncio.wait_for(conn_coro, self.connect_timeout,
+                                     loop=self._loop)
                 self.host_info = "Localhost via UNIX socket: " + \
                                  self._unix_socket
             else:
+                conn_coro = asyncio.open_connection(self._host,
+                                                    self._port,
+                                                    loop=self._loop)
+
                 self._reader, self._writer = yield from \
-                    asyncio.open_connection(self._host, self._port,
-                                            loop=self._loop)
+                    asyncio.wait_for(conn_coro, self.connect_timeout,
+                                     loop=self._loop)
                 self._set_keep_alive()
                 self.host_info = "socket %s:%d" % (self._host, self._port)
 
