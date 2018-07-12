@@ -165,6 +165,8 @@ def connection_creator(mysql_plain, loop):
     @asyncio.coroutine
     def f(**kw):
         conn_kw = mysql_plain.copy()
+        conn_kw.update({'db': 'test_pymysql',
+                        'local_infile': True, 'use_unicode': True})
         conn_kw.update(kw)
         _loop = conn_kw.pop('loop', loop)
         conn = yield from aiomysql.connect(loop=_loop, **conn_kw)
@@ -184,6 +186,8 @@ def pool_creator(mysql_plain, loop):
     @asyncio.coroutine
     def f(**kw):
         conn_kw = mysql_plain.copy()
+        conn_kw.update({'db': 'test_pymysql',
+                        'local_infile': True, 'use_unicode': True})
         conn_kw.update(kw)
         _loop = conn_kw.pop('loop', loop)
         pool = yield from aiomysql.create_pool(loop=_loop, **conn_kw)
