@@ -147,7 +147,12 @@ def cursor(connection, loop):
 
 @pytest.yield_fixture
 def connection(mysql_plain, loop):
-    coro = aiomysql.connect(loop=loop, **mysql_plain)
+    coro = aiomysql.connect(
+        loop=loop,
+        db='test_pymysql',
+        local_infile=True,
+        use_unicode=True
+        **mysql_plain)
     conn = loop.run_until_complete(coro)
     yield conn
     loop.run_until_complete(conn.ensure_closed())
