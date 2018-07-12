@@ -4,8 +4,8 @@ import pytest
 
 
 @pytest.mark.run_loop
-async def test_tls_connect(mysql_server, loop):
-    async with create_pool(**mysql_server['conn_params'],
+async def test_tls_connect(mysql_ssl, loop):
+    async with create_pool(**mysql_ssl,
                            loop=loop) as pool:
         async with pool.get() as conn:
             async with conn.cursor() as cur:
@@ -32,8 +32,8 @@ async def test_tls_connect(mysql_server, loop):
 
 # MySQL will get you to renegotiate if sent a cleartext password
 @pytest.mark.run_loop
-async def test_auth_plugin_renegotiation(mysql_server, loop):
-    async with create_pool(**mysql_server['conn_params'],
+async def test_auth_plugin_renegotiation(mysql_ssl, loop):
+    async with create_pool(**mysql_ssl,
                            auth_plugin='mysql_clear_password',
                            loop=loop) as pool:
         async with pool.get() as conn:

@@ -23,8 +23,8 @@ import pytest
 
 @pytest.mark.mysql_verison('8.0')
 @pytest.mark.run_loop
-async def test_sha256_nopw(mysql_server, loop):
-    connection_data = copy.copy(mysql_server['conn_params'])
+async def test_sha256_nopw(mysql_plain, loop):
+    connection_data = copy.copy(mysql_plain)
     connection_data['user'] = 'nopass_sha256'
     connection_data['password'] = None
 
@@ -38,8 +38,8 @@ async def test_sha256_nopw(mysql_server, loop):
 
 @pytest.mark.mysql_verison('8.0')
 @pytest.mark.run_loop
-async def test_sha256_pw(mysql_server, loop):
-    connection_data = copy.copy(mysql_server['conn_params'])
+async def test_sha256_pw(mysql_plain, loop):
+    connection_data = copy.copy(mysql_plain)
     connection_data['user'] = 'user_sha256'
     connection_data['password'] = 'pass_sha256'
 
@@ -53,8 +53,8 @@ async def test_sha256_pw(mysql_server, loop):
 
 @pytest.mark.mysql_verison('8.0')
 @pytest.mark.run_loop
-async def test_cached_sha256_nopw(mysql_server, loop):
-    connection_data = copy.copy(mysql_server['conn_params'])
+async def test_cached_sha256_nopw(mysql_plain, loop):
+    connection_data = copy.copy(mysql_plain)
     connection_data['user'] = 'nopass_caching_sha2'
     connection_data['password'] = None
 
@@ -68,8 +68,8 @@ async def test_cached_sha256_nopw(mysql_server, loop):
 
 @pytest.mark.mysql_verison('8.0')
 @pytest.mark.run_loop
-async def test_cached_sha256_pw(mysql_server, loop):
-    connection_data = copy.copy(mysql_server['conn_params'])
+async def test_cached_sha256_pw(mysql_plain, loop):
+    connection_data = copy.copy(mysql_plain)
     connection_data['user'] = 'user_caching_sha2'
     connection_data['password'] = 'pass_caching_sha2'
 

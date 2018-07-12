@@ -347,3 +347,20 @@ def mysql_server(unused_port, docker, session_id, mysql_tag, request):
         print('\nTEARDOWN CONTAINER - {0}\n'.format(mysql_tag))
         docker.kill(container=container['Id'])
         docker.remove_container(container['Id'])
+
+
+@pytest.fixture(scope='session')
+def mysql_plain(mysql_server):
+    return {
+        key: value for key, value in
+        mysql_server['conn_params'].items()
+        if key != 'ssl'
+    }
+
+
+@pytest.fixture(scope='session')
+def mysql_ssl(mysql_server):
+    return {
+        key: value for key, value in
+        mysql_server['conn_params'].items()
+    }
