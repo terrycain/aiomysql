@@ -151,7 +151,7 @@ def connection(mysql_plain, loop):
         loop=loop,
         db='test_pymysql',
         local_infile=True,
-        use_unicode=True
+        use_unicode=True,
         **mysql_plain)
     conn = loop.run_until_complete(coro)
     yield conn
