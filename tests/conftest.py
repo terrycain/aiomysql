@@ -159,12 +159,12 @@ def connection(mysql_plain, loop):
 
 
 @pytest.yield_fixture
-def connection_creator(mysql_params, loop):
+def connection_creator(mysql_plain, loop):
     connections = []
 
     @asyncio.coroutine
     def f(**kw):
-        conn_kw = mysql_params.copy()
+        conn_kw = mysql_plain.copy()
         conn_kw.update(kw)
         _loop = conn_kw.pop('loop', loop)
         conn = yield from aiomysql.connect(loop=_loop, **conn_kw)
@@ -178,12 +178,12 @@ def connection_creator(mysql_params, loop):
 
 
 @pytest.yield_fixture
-def pool_creator(mysql_params, loop):
+def pool_creator(mysql_plain, loop):
     pools = []
 
     @asyncio.coroutine
     def f(**kw):
-        conn_kw = mysql_params.copy()
+        conn_kw = mysql_plain.copy()
         conn_kw.update(kw)
         _loop = conn_kw.pop('loop', loop)
         pool = yield from aiomysql.create_pool(loop=_loop, **conn_kw)
