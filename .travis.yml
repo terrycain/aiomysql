@@ -31,7 +31,7 @@ matrix:
           dist: xenial
           sudo: true
           addons:
-              mariadb: 10.1
+              mariadb: 5.5
 
 
 before_script:
